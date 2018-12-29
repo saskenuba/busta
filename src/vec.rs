@@ -44,9 +44,17 @@ impl Add for Vec3 {
 }
 
 #[test]
-fn vec3() {
+fn dot() {
     let vector1 = Vec3::new(1.0, 2.0, 3.0);
     let vector2 = Vec3::new(2.0, 3.0, 4.0);
 
     assert_eq!(Vec3::dot(vector1, vector2), Vec3::new(2.0, 6.0, 12.0));
+}
+
+#[test]
+fn add() {
+    let vector1 = Vec3::new(1.0, 2.0, 3.0);
+    let vector2 = Vec3::new(2.0, 3.0, 4.0);
+
+    assert_eq!(vector1 + vector2, Vec3::new(3.0, 5.0, 7.0));
 }
