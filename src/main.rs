@@ -1,4 +1,5 @@
 use std::fmt;
+
 mod vec;
 
 #[derive(Debug)]
@@ -8,15 +9,11 @@ struct RGBPixel {
     b: i32,
 }
 
-impl std::fmt::Display for RGBPixel {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+impl fmt::Display for RGBPixel {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{} {} {}", self.r, self.g, self.b)
     }
 }
-
-
-
-
 
 fn outputImage(width: i32, height: i32) {
     for i in 0..width {
