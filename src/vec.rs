@@ -27,6 +27,19 @@ impl Vec3 {
             ],
         }
     }
+    pub fn length(&self) -> f64 {
+        ((self.x()).powf(2.0) + (self.y()).powf(2.0) + (self.z()).powf(2.0)).sqrt()
+    }
+
+    pub fn x(&self) -> f64 {
+        return self.vector[0];
+    }
+    pub fn y(&self) -> f64 {
+        return self.vector[1];
+    }
+    pub fn z(&self) -> f64 {
+        return self.vector[2];
+    }
 }
 
 impl PartialEq for Vec3 {
@@ -70,7 +83,16 @@ macro_rules! overload_vec3 {
     };
 }
 
-// Here we overload all binary operators
+impl Neg for Vec3 {
+    type Output = Vec3;
+    fn neg(self) -> Vec3 {
+        Vec3 {
+            vector: [-self.vector[0], -self.vector[1], -self.vector[2]],
+        }
+    }
+}
+
+// Here we overload all binary operators, macros rocks!
 overload_vec3!(+, Add, add, Vec3);
 overload_vec3!(-, Sub, sub, Vec3);
 overload_vec3!(*, Mul, mul, Vec3);
@@ -103,6 +125,12 @@ fn sub() {
 }
 
 #[test]
+fn neg() {
+    let vector1 = Vec3::new(-1.0, 2.0, 3.0);
+    assert_eq!(-vector1, Vec3::new(1.0, -2.0, -3.0));
+}
+
+#[test]
 fn mul() {
     let vector1 = Vec3::new(1.0, 2.0, 3.0);
     let vector2 = Vec3::new(2.0, 3.0, 4.0);
@@ -130,4 +158,11 @@ fn cross() {
     let vector2 = Vec3::new(2.0, 3.0, 4.0);
 
     assert_eq!(Vec3::cross(vector1, vector2), Vec3::new(-1.0, 2.0, -1.0));
+}
+
+#[test]
+fn length() {
+    let vector1 = Vec3::new(10.0, 10.0, 10.0);
+
+    assert_eq!(((vector1.length() * 10000.0).round() / 10000.0), 17.3205);
 }
