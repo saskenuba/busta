@@ -58,7 +58,7 @@ impl PartialEq for Vec3 {
 }
 
 macro_rules! overload_vec3 {
-    ($oper:tt, $oper_name:ident, $oper_name_lowercase:ident, Vec3) => {
+    ($oper:tt, $oper_name:ident, $oper_name_lowercase:ident, Vec3, 0) => {
         impl $oper_name<Vec3> for Vec3 {
             type Output = Vec3;
             fn $oper_name_lowercase(self, other: Vec3) -> Vec3 {
@@ -72,7 +72,7 @@ macro_rules! overload_vec3 {
             }
         }
     };
-    ($oper:tt, $oper_name:ident, $oper_name_lowercase:ident, $custom_sig:ty) => {
+    ($oper:tt, $oper_name:ident, $oper_name_lowercase:ident, $custom_sig:ty, 0) => {
         impl $oper_name<$custom_sig> for Vec3 {
             type Output = Vec3;
             fn $oper_name_lowercase(self, other: $custom_sig) -> Vec3 {
@@ -107,12 +107,12 @@ impl Neg for Vec3 {
 }
 
 // Here we overload all binary operators, macros rocks!
-overload_vec3!(+, Add, add, Vec3);
-overload_vec3!(-, Sub, sub, Vec3);
-overload_vec3!(*, Mul, mul, Vec3);
-overload_vec3!(/, Div, div, Vec3);
-overload_vec3!(*, Mul, mul, f64);
-overload_vec3!(/, Div, div, f64);
+overload_vec3!(+, Add, add, Vec3, 0);
+overload_vec3!(-, Sub, sub, Vec3, 0);
+overload_vec3!(*, Mul, mul, Vec3, 0);
+overload_vec3!(/, Div, div, Vec3, 0);
+overload_vec3!(*, Mul, mul, f64, 0);
+overload_vec3!(/, Div, div, f64, 0);
 overload_vec3!(+=, AddAssign, add_assign, Vec3, 1);
 overload_vec3!(-=, SubAssign, sub_assign, Vec3, 1);
 overload_vec3!(*=, MulAssign, mul_assign, Vec3, 1);

@@ -2,7 +2,6 @@ use std::fmt;
 
 mod vec;
 
-#[derive(Debug)]
 struct RGBPixel {
     r: i32,
     g: i32,
@@ -15,24 +14,31 @@ impl fmt::Display for RGBPixel {
     }
 }
 
-fn outputImage(width: i32, height: i32) {
-    for i in 0..width {
-        for j in 0..height {
-            let basinga = i as f64 / width as f64;
-            let hehe = j as f64 / height as f64;
-            let wat = 0.2;
+fn output_image(width: i32, height: i32) {
+    /*
+    Outputs image in .PPM format.
+     */
+    println!("P3");
+    println!("{} {}", width, height);
+    println!("255");
+    for i in (0..height).rev() {
+        for j in 0..width {
+            let r = j as f64 / width as f64;
+            let g = i as f64 / height as f64;
+            let b = 0.2;
 
-            let okok = RGBPixel {
-                r: (255.99 * basinga) as i32,
-                g: (255.99 * hehe) as i32,
-                b: (255.99 * wat) as i32,
+            let pixel = RGBPixel {
+                r: (255.99 * r) as i32,
+                g: (255.99 * g) as i32,
+                b: (255.99 * b) as i32,
             };
 
-            println!("{:?}", okok);
+            println!("{}", pixel);
         }
     }
 }
 
 fn main() {
-    outputImage(5, 5);
+    let imagesize = (200, 100);
+    output_image(imagesize.0, imagesize.1);
 }
