@@ -71,9 +71,33 @@ macro_rules! overload_vec3 {
                 }
             }
         }
+        impl<'a, 'b> $oper_name<&'b Vec3> for &'b Vec3 {
+            type Output = Vec3;
+            fn $oper_name_lowercase(self, other: &'b Vec3) -> Vec3 {
+                Vec3 {
+                    vector: [
+                        self.vector[0] $oper other.vector[0],
+                        self.vector[1] $oper other.vector[1],
+                        self.vector[2] $oper other.vector[2],
+                    ],
+                }
+            }
+        }
     };
     ($oper:tt, $oper_name:ident, $oper_name_lowercase:ident, $custom_sig:ty, 0) => {
         impl $oper_name<$custom_sig> for Vec3 {
+            type Output = Vec3;
+            fn $oper_name_lowercase(self, other: $custom_sig) -> Vec3 {
+                Vec3 {
+                    vector: [
+                        self.vector[0] $oper other,
+                        self.vector[1] $oper other,
+                        self.vector[2] $oper other,
+                    ],
+                }
+            }
+        }
+        impl<'a> $oper_name<$custom_sig> for &'a Vec3 {
             type Output = Vec3;
             fn $oper_name_lowercase(self, other: $custom_sig) -> Vec3 {
                 Vec3 {
