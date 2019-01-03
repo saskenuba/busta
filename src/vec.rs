@@ -1,3 +1,4 @@
+use crate::ray::Ray;
 use std::ops::*;
 
 #[derive(Debug)]
@@ -28,6 +29,10 @@ impl Vec3 {
         }
     }
 
+    fn unit_vector(v1: &Vec3) -> Vec3 {
+        return v1 / v1.length();
+    }
+
     pub fn length(&self) -> f64 {
         self.squared_length().sqrt()
     }
@@ -39,11 +44,19 @@ impl Vec3 {
     pub fn x(&self) -> f64 {
         self.vector[0]
     }
+
     pub fn y(&self) -> f64 {
         self.vector[1]
     }
+
     pub fn z(&self) -> f64 {
         self.vector[2]
+    }
+
+    pub fn color(ray: &Ray) -> Vec3 {
+        let unit_direction = Vec3::unit_vector(ray.direction());
+        let t = 0.5 * (unit_direction.y() + 1.0);
+        Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t
     }
 }
 
@@ -177,7 +190,6 @@ fn sub() {
 fn neg() {
     let vector1 = Vec3::new(-1.0, 2.0, 3.0);
     assert_eq!(-vector1, Vec3::new(1.0, -2.0, -3.0));
-
 }
 
 #[test]
@@ -206,7 +218,6 @@ fn div() {
     let vector4 = Vec3::new(2.0, 2.0, 4.0);
     vector3 /= vector4;
     assert_eq!(vector3, Vec3::new(0.5, 1.0, 0.75));
-
 }
 
 #[test]
