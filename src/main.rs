@@ -1,6 +1,6 @@
+use busta::ray::Ray;
+use busta::vec::Vec3;
 use std::fmt;
-
-mod vec;
 
 struct RGBPixel {
     r: i32,
@@ -21,16 +21,25 @@ fn output_image(width: i32, height: i32) {
     println!("P3");
     println!("{} {}", width, height);
     println!("255");
+
+    let lower_left_corner = Vec3::new(-2.0, -1.0, -1.0);
+    let horizontal = Vec3::new(4.0, 0.0, 0.0);
+    let vertical = Vec3::new(0.0, 2.0, 0.0);
+    let origin = Vec3::new(0.0, 0.0, 0.0);
+
     for i in (0..height).rev() {
         for j in 0..width {
-            let r = j as f64 / width as f64;
-            let g = i as f64 / height as f64;
-            let b = 0.2;
+            let r = f64::from(j) / f64::from(width);
+            let g = f64::from(i) / f64::from(height);
+
+            let new_ray_calc = &(&lower_left_corner + &(&horizontal * r) + &vertical * g);
+            let new_ray = Ray::new(&origin, new_ray_calc);
+            let col = Vec3::color(&new_ray);
 
             let pixel = RGBPixel {
-                r: (255.99 * r) as i32,
-                g: (255.99 * g) as i32,
-                b: (255.99 * b) as i32,
+                r: (255.99 * col.vector[0]) as i32,
+                g: (255.99 * col.vector[1]) as i32,
+                b: (255.99 * col.vector[2]) as i32,
             };
 
             println!("{}", pixel);
